@@ -1,0 +1,28 @@
+version: "3"
+services:
+  app:
+    container_name: app
+    restart: always
+    build: .
+    ports:
+      - "8080:8080"
+    tty: true
+    networks:
+      - app-network
+    depends_on:
+      - mongo
+    volumes:
+      - .:/app
+  mongo:
+    image: mongo
+    restart: always
+    networks:
+      - app-network
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data:/data/db
+
+networks:
+  app-network:
+    driver: bridge
